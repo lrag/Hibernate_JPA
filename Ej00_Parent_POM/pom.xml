@@ -1,0 +1,66 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.curso</groupId>
+	<artifactId>Ej00_Parent_POM</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<modules>
+		<module>../Ej01_SessionFactory</module>
+		<module>../Ej02_AttributeConverters</module>
+		<module>../Ej03_CambiosEnSession</module>
+		<module>../Ej04_Java8_Streams</module>
+		<module>../Ej05_Java8_JavaTime</module>
+		<module>../Ej06_Java8_Autocloseable</module>
+		<module>../Ej07_RepeteableAnnotations</module>
+		<module>../Ej08_ConstructorResult</module>
+		<module>../Ej09_UUID</module>
+		<module>../Ej10_ProgrammaticNamedQueries</module>
+		<module>../Ej11_RelacionesBidireccionales</module>
+		<module>../Ej12_HQL_Join</module>
+		<module>../Ej13_NamedEntityGraph</module>
+		<module>../Ej14_Envers</module>
+		<module>../Ej15_Hibernate_Sesion</module>
+		<module>../Ej16_EHCACHE</module>
+		<module>../Ej17_Hibernate_Relaciones_Composicion</module>
+		<module>../Ej18_Hibernate_Herencia</module>
+		<module>../Ej19_Hibernate_HQL</module>
+		<module>../Ej20_Criteria_Metamodel</module>
+	</modules>
+
+	<properties>
+		<hibernate.version>6.6.13.Final</hibernate.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.7.0</version>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<dependencies>
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-core</artifactId>
+			<version>${hibernate.version}</version> 
+		</dependency>
+
+		<dependency>
+			<groupId>com.h2database</groupId>
+			<artifactId>h2</artifactId>
+			<version>2.3.232</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
