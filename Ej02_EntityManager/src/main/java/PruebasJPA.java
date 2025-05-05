@@ -1,6 +1,10 @@
 import java.time.LocalDate;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.StatelessSession;
+
 import com.curso.modelo.entidad.Pelicula;
 
 import jakarta.persistence.EntityManager;
@@ -10,7 +14,7 @@ import jakarta.persistence.Query;
 
 public class PruebasJPA {
 
-	public static void main(String[] args) {
+	public static void main(String[] args) throws InterruptedException {
 		
 		//El entity manager factory es threadsafe
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("H2PU");
@@ -40,7 +44,8 @@ public class PruebasJPA {
 		Pelicula p2 = new Pelicula();
 		p2.setId(idPelicula);
 		p2.setDuracion(duracion);
-		*/		
+		 */		
+		
 		//Debemos asegurarnos de que el objeto tenga todos los valores
 		Pelicula p2 = new Pelicula(p1.getId(), "Die Hard", "Acción", 131, LocalDate.now());		
 		em = emf.createEntityManager();
@@ -49,7 +54,7 @@ public class PruebasJPA {
 		//merge es sincronizar la base de datos con el objeto
 		em.merge(p2);
 		em.getTransaction().commit(); //.rollback();
-		em.close();		
+		em.close();	
 		
 		/////////////////
 		//SELECT POR ID//
@@ -77,7 +82,6 @@ public class PruebasJPA {
 		//Gracias a la caché de primer nivel el merge no es necesario
 		//(Pero no pasa nada si lo ponemos)
 		//em.merge(p4);
-	
 		em.getTransaction().commit(); //.rollback();
 		em.close();		
 		
@@ -96,6 +100,7 @@ public class PruebasJPA {
 		
 		em.close();
 		
+		
 		//////////
 		//DELETE//
 		//////////
@@ -106,10 +111,17 @@ public class PruebasJPA {
 		
 		em = emf.createEntityManager(); //La caché de este em está vacía
 		em.getTransaction().begin();
-		p6 = em.merge(p6);
+		
+		//Tambien podemos hacerlo con un find antes del remove
+		//Pelicula p6 = em.find(Pelicula.class, idPelicula);
+		//(Habría que preguntar si existe) 
+		
+		p6 = em.merge(p6); //nótese la asignación
 		//em.remove(p6); //El delete solo se ejecuta en el momento del commit
+
 		em.getTransaction().commit(); //.rollback();
-		em.close();			
+		em.close();	
+
 		
 		///////////
 		//REFRESH//
@@ -133,7 +145,8 @@ public class PruebasJPA {
 
 		//Ahora no hay update, porque hemos hecho 'refresh'
 		em.getTransaction().commit(); //.rollback();
-		em.close();			
+		em.close();		
+		
 		
 		/////////////////
 		//OTROS MÉTODOS//

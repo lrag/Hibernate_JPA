@@ -7,6 +7,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
 import jakarta.persistence.Transient;
 
@@ -16,7 +17,7 @@ public class Pelicula {
 
 	@Id // Obligatoria
 	//@GeneratedValue(strategy = GenerationType.SEQUENCE) //Secuencia
-	//@SequenceGenerator(name = "PELICULAS_SEQ")
+	//@SequenceGenerator(name = "PELICULAS_SEQ", initialValue = 0, allocationSize = 10)
 	@GeneratedValue(strategy = GenerationType.IDENTITY) //Columna autoincremental
 	private Integer id;
 
@@ -24,6 +25,10 @@ public class Pelicula {
 	private String genero;
 	private int duracion;
 	@Column(name = "fecha_estreno")
+	
+	//Se puede trabajar con java.util.Date (a la antígua)
+	//@Temporal(TemporalType.DATE) Opcional: si no se incluye se guarda el timestamp
+	//private Date fecha;
 	private LocalDate fechaEstreno;
 
 	@Transient
