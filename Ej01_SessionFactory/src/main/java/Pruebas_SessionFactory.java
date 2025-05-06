@@ -81,12 +81,13 @@ public class Pruebas_SessionFactory {
 		//
 		SessionFactory sessionFactory = new Configuration()
                 .addAnnotatedClass(Pelicula.class)
-                .setProperty(URL, "jdbc:h2:file:C:/H2/hibernate6")
-                .setProperty(USER, "sa")
-                .setProperty(PASS, "")
+                .setProperty("jakarta.persistence.jdbc.url", "jdbc:h2:file:C:/H2/hibernate6")
+                .setProperty("jakarta.persistence.jdbc.user", "sa")
+                .setProperty("jakarta.persistence.jdbc.password", "")
                 .setProperty(SHOW_SQL, true)
                 .setProperty(FORMAT_SQL, false)
                 .setProperty(HIGHLIGHT_SQL, true)
+                .setProperty("hibernate.hbm2ddl.auto", "update")
                 .buildSessionFactory();
 		
 		sessionFactory.close();

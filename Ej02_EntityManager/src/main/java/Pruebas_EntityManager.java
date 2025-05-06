@@ -12,7 +12,7 @@ import jakarta.persistence.EntityManagerFactory;
 import jakarta.persistence.Persistence;
 import jakarta.persistence.Query;
 
-public class PruebasJPA {
+public class Pruebas_EntityManager {
 
 	public static void main(String[] args) throws InterruptedException {
 		
@@ -137,15 +137,18 @@ public class PruebasJPA {
 		Pelicula p7 = em.find(Pelicula.class, idPelicula);
 		//Cambiamos la duración. Se marca el objeto en la caché como 'no sincronizado'
 		p7.setDuracion(duracion);
-		em.merge(p7); //Esto no hace el update. El update se ejecuta durante el commit
+		//em.merge(p7); //Esto no hace el update. El update se ejecuta durante el commit
 		
 		//Al hacer refresh se sincroniza el objeto con lo que sigue estando en la tabla
 		//Asi que pierde la marca
-		em.refresh(p7); //fuerza un select
+		//em.refresh(p7); //fuerza un select
 
 		//Ahora no hay update, porque hemos hecho 'refresh'
 		em.getTransaction().commit(); //.rollback();
 		em.close();		
+		
+		
+		System.exit(42);
 		
 		
 		/////////////////

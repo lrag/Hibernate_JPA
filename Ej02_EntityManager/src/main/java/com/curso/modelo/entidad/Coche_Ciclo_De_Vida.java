@@ -21,7 +21,7 @@ public class Coche_Ciclo_De_Vida {
 	private String marca;
 	private String modelo;
 	private String matricula;
-
+	
 	@PostLoad
 	public void postLoad() {
 		System.out.println("POSTLOAD");
