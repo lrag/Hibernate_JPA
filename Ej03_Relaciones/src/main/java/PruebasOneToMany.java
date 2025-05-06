@@ -28,17 +28,18 @@ public class PruebasOneToMany {
 		db.setCliente(c);
 		
 		List<Pedido> pedidos = new ArrayList<>();
-		Pedido p1 = new Pedido(null,"PED-1",new Date(),c);
-		Pedido p2 = new Pedido(null,"PED-2",new Date(),c);
-		Pedido p3 = new Pedido(null,"PED-3",new Date(),c);
-		Pedido p4 = new Pedido(null,"PED-4",new Date(),c);
-		Pedido p5 = new Pedido(null,"PED-5",new Date(),c);
+		Pedido p1 = new Pedido(null,"PED-0",new Date(),c);
+		Pedido p2 = new Pedido(null,"PED-1",new Date(),c);
+		Pedido p3 = new Pedido(null,"PED-2",new Date(),c);
+		Pedido p4 = new Pedido(null,"PED-3",new Date(),c);
+		Pedido p5 = new Pedido(null,"PED-4",new Date(),c);
 		pedidos.add(p1);
 		pedidos.add(p2);
 		pedidos.add(p3);
 		pedidos.add(p4);
 		pedidos.add(p5);
-		c.setPedidos(pedidos);		
+		c.setPedidos(pedidos);	
+		//c.setPedidos(new ArrayList<>());
 		
 		System.out.println("==============================================");
 		em = emf.createEntityManager();
@@ -55,18 +56,17 @@ public class PruebasOneToMany {
 		
 		//Como tenemos cascades en los dos extremos da igual el objeto
 		//que escojamos para hacer el persist...
-		
 		em.persist(c); //Se insertan tb los pedidos en una especie de proceso batch
 		//em.persist(p2);
 		
-		
 		em.getTransaction().commit(); 
 		em.close();		
-		
+
 		System.out.println("Id del cliente:"+c.getId());
 		
-		
-		//Cargas perezosas
+		////////////////////
+		//Cargas perezosas//
+		////////////////////
 		System.out.println("==============================================");
 		em = emf.createEntityManager();
 
@@ -74,13 +74,17 @@ public class PruebasOneToMany {
 		System.out.println(c2.getNombre());
 		System.out.println(c2.getDatosBancarios().getBanco());
 
-		c2.getPedidos().size();
+		
+		//c2.getPedidos().size();
+		
 		
 		em.close();
 		
+		//c2.getPedidos().size();
 		for(Pedido pAux: c2.getPedidos()){
 			System.out.println(pAux.getCodigo());
 		}
+		
 		
 		emf.close();
 		

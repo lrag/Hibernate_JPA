@@ -4,7 +4,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 //No es una entidad: no tiene id
-//Puede tener cualquier anotaci�n relativa a las columnas
+//Puede tener cualquier anotación relativa a las columnas
 //Hay que darla de alta en el persistence.xml
 @Embeddable
 public class Direccion {

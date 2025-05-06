@@ -14,7 +14,6 @@ public class Clave implements Serializable{
 
 	public Clave() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Clave(String nombre, String apellidos) {

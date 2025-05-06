@@ -3,6 +3,14 @@ package com.curso.modelo.entidad;
 import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
 
+/*
+
+NOMBRE | APELLIDOS | DATO1 | DATO2
+----------------------------------
+Ringo    Starr       10      100
+
+*/
+
 @Entity
 public class ClaseConClaveCompuesta {
 

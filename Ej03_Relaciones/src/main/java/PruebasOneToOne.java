@@ -39,10 +39,29 @@ public class PruebasOneToOne {
 		em.getTransaction().commit(); 
 		em.close();		
 		
+		///////////
+		//CASCADE//
+		///////////
+		System.out.println("==============================================");
+		Integer idCliente = c.getId(); 
+		Integer idDatosBancarios = db.getId();
+		
+		Direccion dd = new Direccion("Madrid", "C/Barquillo", "42", "28000");
+		Cliente c2 = new Cliente(idCliente, "Montgomery Burns", "555", dd, null);
+		DatosBancarios db2 = new DatosBancarios(idDatosBancarios, "Htb", 7777, c2);
+		c2.setDatosBancarios(db2);
+		
+		em = emf.createEntityManager();
+		em.getTransaction().begin();
+		
+		em.merge(c2);
+		//em.merge(db2);
+		
+		em.getTransaction().commit();
+		em.close();
+
+		
 		emf.close();
-		
-		
-		
 	}
 	
 	

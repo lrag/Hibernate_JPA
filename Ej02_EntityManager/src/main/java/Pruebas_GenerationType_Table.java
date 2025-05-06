@@ -46,8 +46,6 @@ public class Pruebas_GenerationType_Table {
 		em.persist(p3); 
 		em.persist(p4); 
 		em.persist(p5); 
-		em.getTransaction().commit(); 
-		em.close();
 		
 		System.out.println(c1);
 		System.out.println(c2);
@@ -60,6 +58,9 @@ public class Pruebas_GenerationType_Table {
 		System.out.println(p4);
 		System.out.println(p5);
 		
+		em.getTransaction().commit(); 
+		em.close();		
+		
 		emf.close();
 		
 		System.out.println("=========================================");
@@ -67,7 +68,7 @@ public class Pruebas_GenerationType_Table {
 		PreparedStatement pst = cx.prepareStatement("select * from TABLA_IDS");
 		ResultSet rs = pst.executeQuery();
 		while(rs.next()) {
-			System.out.println(rs.getString(1));
+			System.out.println(rs.getString(1)+", "+rs.getInt(2));
 		}
 		cx.close();
 		

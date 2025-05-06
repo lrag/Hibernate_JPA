@@ -11,7 +11,8 @@ public class Producto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.TABLE, generator = "idProductoGenerator")
-    @TableGenerator(
+    //select VALOR from TABLA_IDS where ENTIDAD='Producto'
+	@TableGenerator(
             name="idProductoGenerator", 
             table="TABLA_IDS", 
             pkColumnName="ENTIDAD", 
