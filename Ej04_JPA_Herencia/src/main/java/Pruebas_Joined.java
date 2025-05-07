@@ -17,7 +17,7 @@ public class Pruebas_Joined {
 		em.getTransaction().begin();
 		
 		Producto_Joined p = new Producto_Joined(0,"Producto","Es una cosa abstracta");
-		Hardware_Joined hw = new Hardware_Joined(0,"Servidor","GORDÍSIMO",40);
+		Hardware_Joined hw = new Hardware_Joined(0,"Servidor","GORDÍSIMO",40d);
 		Software_Joined sw = new Software_Joined(0,"Aplicacion", "Estupenda","Spring MVC + Hibernate");
 		Consultoria_Joined co = new Consultoria_Joined(0,"Consultoria","Muchachos",100);
 

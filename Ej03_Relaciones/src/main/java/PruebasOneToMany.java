@@ -2,6 +2,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+
 import com.curso.modelo.entidad.Cliente;
 import com.curso.modelo.entidad.DatosBancarios;
 import com.curso.modelo.entidad.Direccion;
@@ -69,15 +72,15 @@ public class PruebasOneToMany {
 		////////////////////
 		System.out.println("==============================================");
 		em = emf.createEntityManager();
+		em.getTransaction().begin();
 
 		Cliente c2 = em.find(Cliente.class, c.getId());
 		System.out.println(c2.getNombre());
 		System.out.println(c2.getDatosBancarios().getBanco());
 
-		
 		//c2.getPedidos().size();
 		
-		
+		em.getTransaction().commit();
 		em.close();
 		
 		//c2.getPedidos().size();
@@ -89,6 +92,6 @@ public class PruebasOneToMany {
 		emf.close();
 		
 	}
-	
-	
+		
 }
+

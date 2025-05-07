@@ -1,14 +1,19 @@
 package modelo_joined;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 @Table(name="Hardware_joined") //Puede tener table
 //Puede tener un valor para la discriminator column
 public class Hardware_Joined extends Producto_Joined {
+	
 	//No tiene @Id
-	protected double peso;
+	
+	@NotNull
+	protected Double peso;
 
 	public Hardware_Joined() {
 		super();
@@ -16,16 +21,16 @@ public class Hardware_Joined extends Producto_Joined {
 	}
 
 	public Hardware_Joined(int idProducto, String nombre, String descripcion,
-			double peso) {
+			Double peso) {
 		super(idProducto, nombre, descripcion);
 		this.peso = peso;
 	}
 
-	public double getPeso() {
+	public Double getPeso() {
 		return peso;
 	}
 
-	public void setPeso(double peso) {
+	public void setPeso(Double peso) {
 		this.peso = peso;
 	}
 

@@ -1,7 +1,7 @@
 package com.curso.modelo.entidad;
 
 //Clase de acceso publico
-//No tiene anotación alguna
+//No tiene anotaciÃ³n alguna
 public class ClienteResumen {
 
 	private Integer id;

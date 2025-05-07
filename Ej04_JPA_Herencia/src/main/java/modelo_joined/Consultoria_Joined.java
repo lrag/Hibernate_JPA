@@ -11,7 +11,6 @@ public class Consultoria_Joined extends Producto_Joined {
 
 	public Consultoria_Joined() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Consultoria_Joined(int idProducto, String nombre, String descripcion,

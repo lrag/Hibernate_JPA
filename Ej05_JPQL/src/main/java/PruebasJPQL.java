@@ -4,6 +4,7 @@ import java.util.List;
 import com.curso.modelo.entidad.Cliente;
 import com.curso.modelo.entidad.ClienteResumen;
 import com.curso.modelo.entidad.Pedido;
+import com.curso.modelo.entidad.Producto;
 import com.curso.modelo.entidad.Producto_Joined;
 
 import jakarta.persistence.EntityManager;
@@ -27,6 +28,7 @@ public class PruebasJPQL {
 		//select * from clientes
 		Query q = em.createQuery("select c from com.curso.modelo.entidad.Cliente as c");
 		//Autoimport: no hace falta poner el paquete
+		//No hace falta poner el 'as'
 		Query qBis = em.createQuery("select c from Cliente c");
 		//Al ejecutar una consulta que devuelva objetos TODOS pasan a la cache
 		List<Cliente> clientes = q.getResultList();
@@ -39,7 +41,7 @@ public class PruebasJPQL {
 		List<Cliente> listaA = em.createQuery("select c from Cliente c").getResultList();
 		List<String> listaB = em.createQuery("select c.nombre from Cliente c").getResultList();
 		
-		//Cuando pedimos m�s de un atributo nos devuelven un array de object
+		//Cuando pedimos más de un atributo nos devuelven un array de object
 		Query q15 = em.createQuery("select c.id, c.nombre, c.direccion.ciudad from Cliente c");
 		List<Object[]> rs = q15.getResultList();
 		for(Object[] fila: rs){
@@ -65,7 +67,9 @@ public class PruebasJPQL {
 		Query q5 = em.createQuery("select p from Producto_Joined p where p.precio>100 and p.precio<200");
 		Query q6 = em.createQuery("select p from Producto_Joined p where p.precio between 100 and 200");
 		//Clientes sin calle 
-		Query q11 = em.createQuery("select c from Cliente c where c.direccion.calle=null");
+		Query q11    = em.createQuery("select c from Cliente c where c.direccion.calle=null");       //Esto es un embedded asi que es un select normal
+		//Clientes de un banco concreto
+		Query q11bis = em.createQuery("select c from Cliente c where c.datosBancarios.banco='Htc'"); //Esto es un @oneToOne e implica un join
 		
 		Query q7 = em.createQuery("select c from Cliente c where c.nombre like '%Bartolo%'");
 		//Busca todos los clientes que tengan un nombre que empiece por B y luego tenga 3 caracteres (curiosidad)
@@ -86,7 +90,7 @@ public class PruebasJPQL {
 		//Relaciones////////////////////////////////////////////////////////////////////////////////
 		System.out.println("============================");
 		//Pedidos de un cliente
-		//Sin el extremo opcional lo hacemos as�:
+		//Sin el extremo opcional lo hacemos así:
 		Query q12Bis = em.createQuery("select p from Pedido p where p.cliente.id = 1");
 		
 		//q12Bis seria equivalente a (si disponemos del extremo opcional):
@@ -95,28 +99,29 @@ public class PruebasJPQL {
 			List<Pedido> pedidosBis = c.getPedidos();
 		}
 		
-		//Podemos utilizar las relaciones directamente en la query sin necesidad de un join expl�cito
-		//Aqui hay un JOIN impl�cito
+		//Podemos utilizar las relaciones directamente en la query sin necesidad de un join explícito
+		//Aqui hay un JOIN implícito:
 		Query q12 = em.createQuery("select p from Pedido p where p.cliente.nombre like '%Ringo%'");
 		List<Pedido> pedidos = q12.getResultList();
 		for(Pedido p: pedidos){
 			System.out.println(p.getId()+","+p.getCodigo());
 		}
 		
-		//JOIN EXPLICITO. Se usa la colecci�n para hacer el join, no la clase
+		//JOIN EXPLICITO. Se usa la colección para hacer el join, no la clase
+		//
+		//select c.pedidos from Cliente c
+		//		
 		//inner, left, right, outer
-		//select c.* from clientes 
+		//select c.* from clientes c 
 		//           left join pedidos p on p.fk_id_cliente = c.id
 		//			 where p.fecha > '2022/04/01'
 		//La siguiente consulta exige el extremo opcional
-		
-		//select c.pedidos from Cliente c
 		
 		Query q9a = em.createQuery("select c from Cliente c " +
 								   "inner join c.pedidos p where p.fecha>:fecha");
 		q9a.setParameter("fecha", new Date());
 			
-		//Un equivalente sin join ser�a (pero hace un join, est� implicito):
+		//Un equivalente sin join sería (pero hace un join, está implicito):
 		//Esta consulta no necesita el extremo opcional
 		Query q9Bis = em.createQuery("select distinct(p.cliente) from Pedido p " +
 		 							 "where p.fecha>:fecha");
@@ -124,7 +129,7 @@ public class PruebasJPQL {
 		
 		//JOIN IMPLICITO
 		//Query q10    = s.createQuery("from Pedido p inner join Cliente c where c.direccion.ciudad = 'Barcelona'");
-		//Mejor as�:
+		//Mejor así:
 		Query q10Bis = em.createQuery("select p from Pedido p where p.cliente.direccion.ciudad='Barcelona'");
 		
 		//Funciones
@@ -166,11 +171,11 @@ public class PruebasJPQL {
 		Query q18Bis = em.createQuery("from Producto_Joined p where p.class=Software_Joined or p.class=Hardware_Joined");
 		//List<Producto_Joined> rs6 = q12.list();
 				
-		//Par�metros
+		//Parámetros
 		//JAMAS debemos hacer esto. No se debe concatenar a una query. PENA DE MUERTE:
-		//JPA usa �nicamente PreparedStatements
+		//JPA usa únicamente PreparedStatements
 		int precioMax = 150;
-		//Adem�s si contatenamos nos exponemos a la inyecci�n de sql
+		//Además si contatenamos nos exponemos a la inyección de sql
 		Query q19 = em.createQuery("select p from Producto_Joined p where p.precio<="+precioMax);
 		//Esto es lo correcto:
 		Query q20 = em.createQuery("select p from Producto_Joined p where p.precio>=?1 and p.precio<=?2");
@@ -183,7 +188,7 @@ public class PruebasJPQL {
 		q21.setParameter("minimo", 60);
 		q21.setParameter("maximo", 110);
 		
-		//Los m�todos relacionados con consultas siempre devuelven la consula (curiosidad)
+		//Los métodos relacionados con consultas siempre devuelven la consula (curiosidad)
 		Query q22 = em
 			.createQuery("select p from Producto_Joined p where p.precio>=?1 and p.precio<=?2")
 			.setParameter(1, 60)
@@ -199,15 +204,17 @@ public class PruebasJPQL {
 		
 		//BULK UPDATE
 		//Subir un 5% los precios de todos los productos
-		//Todos los productos se quedar�an en la cach�
+		//Todos los productos se quedaráan en la caché
 		Query q24 = em.createQuery("select p from Producto_Joined p");
 		List<Producto_Joined> productos3 = q24.getResultList();
 		for(Producto_Joined p: productos3){
 			p.setPrecio(p.getPrecio()*1.05);
+			//em.merge(p);
 		}
+		
 		//Lo mismo pero con un update
 		//Ninguna fila afectada por el update va a la cach�
-		//y se ejecuta una �nica consulta
+		//y se ejecuta una única consulta
 		Query q25 = em.createQuery("update Producto_Joined p set p.precio=p.precio*1.05");
 		int numModificados = q25.executeUpdate();
 		

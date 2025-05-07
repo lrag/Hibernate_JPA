@@ -42,7 +42,8 @@ public class Cliente {
 	
 	//Relacion de uno a muchos
 	//Extremo opcional
-	@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL) //Este cascade no es realmente necesario
+	//@OneToMany(mappedBy="cliente", cascade=CascadeType.ALL) //Este cascade no es realmente necesario
+	@Transient
 	private List<Pedido> pedidos;
 	
 	//Relacion de muchos a muchos

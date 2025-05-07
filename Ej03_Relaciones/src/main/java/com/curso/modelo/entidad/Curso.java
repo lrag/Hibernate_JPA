@@ -7,6 +7,13 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 
+/*
+
+ID  NOMBRE FK_ID_AULA_TEORIA  FK_ID_AULA_PRACTICA
+-------------------------------------------------
+
+*/
+
 @Entity
 public class Curso {
 
@@ -24,7 +31,6 @@ public class Curso {
 
 	public Curso() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Curso(Integer id, String nombre, Aula aulaTeoria, Aula aulaPractica) {

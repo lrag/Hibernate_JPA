@@ -13,11 +13,9 @@ import jakarta.persistence.Table;
 @Table(name="producto_joined") //Puede tener @Table
 @Inheritance(strategy=InheritanceType.JOINED)
 //Tambien puede tener discriminator column (si no se la inventa)
-public class Producto_Joined { //Tambien puede ser abstracta (deber�a ser abstracta)
+public class Producto_Joined { //Tambien puede ser abstracta (en este caso debería ser abstracta)
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	//@GeneratedValue(strategy=GenerationType.SEQUENCE, generator="productosSeq")
-	//@SequenceGenerator(name="productosSeq", sequenceName="productos_seq", initialValue=0, allocationSize=1)
 	@Column(name="id_producto")
 	protected int idProducto;
 	protected String nombre;
@@ -25,7 +23,6 @@ public class Producto_Joined { //Tambien puede ser abstracta (deber�a ser abst
 
 	public Producto_Joined() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Producto_Joined(int idProducto, String nombre, String descripcion) {

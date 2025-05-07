@@ -2,6 +2,7 @@ package modelo_single_table;
 
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
+import jakarta.validation.constraints.NotNull;
 
 @Entity
 //No puede tener @Table
@@ -9,24 +10,24 @@ import jakarta.persistence.Entity;
 public class Hardware_Single_Table extends Producto_Single_Table {
 	//No tiene @Id
 	
-	protected double peso;
+	@NotNull
+	protected Double peso;
 
 	public Hardware_Single_Table() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	public Hardware_Single_Table(int idProducto, String nombre, String descripcion,
-			double peso) {
+			Double peso) {
 		super(idProducto, nombre, descripcion);
 		this.peso = peso;
 	}
 
-	public double getPeso() {
+	public Double getPeso() {
 		return peso;
 	}
 
-	public void setPeso(double peso) {
+	public void setPeso(Double peso) {
 		this.peso = peso;
 	}
 

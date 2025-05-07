@@ -34,7 +34,7 @@ public class Cliente {
 	@Embedded
 	private Direccion direccion;
 	
-	//Relaci�n de uno a uno con dos tablas, extremo obligatorio
+	//Relación de uno a uno con dos tablas, extremo obligatorio
 	@OneToOne(cascade=CascadeType.ALL)
 	@JoinColumn(name="fk_id_datos_bancarios", referencedColumnName="id")
 	private DatosBancarios datosBancarios;
