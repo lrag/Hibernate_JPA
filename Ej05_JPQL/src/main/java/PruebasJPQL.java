@@ -1,3 +1,4 @@
+import java.util.Date;
 import java.util.List;
 
 import com.curso.modelo.entidad.Cliente;
@@ -112,12 +113,14 @@ public class PruebasJPQL {
 		//select c.pedidos from Cliente c
 		
 		Query q9a = em.createQuery("select c from Cliente c " +
-								   "inner join c.pedidos p where p.fecha>'2017/09/20'");
+								   "inner join c.pedidos p where p.fecha>:fecha");
+		q9a.setParameter("fecha", new Date());
 			
 		//Un equivalente sin join ser�a (pero hace un join, est� implicito):
 		//Esta consulta no necesita el extremo opcional
 		Query q9Bis = em.createQuery("select distinct(p.cliente) from Pedido p " +
-		 							 "where p.fecha>'2017/09/20'");
+		 							 "where p.fecha>:fecha");
+		q9Bis.setParameter("fecha", new Date());
 		
 		//JOIN IMPLICITO
 		//Query q10    = s.createQuery("from Pedido p inner join Cliente c where c.direccion.ciudad = 'Barcelona'");

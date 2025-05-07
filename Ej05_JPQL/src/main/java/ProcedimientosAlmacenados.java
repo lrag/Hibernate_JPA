@@ -1,12 +1,12 @@
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.ParameterMode;
-import javax.persistence.Persistence;
-import javax.persistence.StoredProcedureQuery;
-
 import com.curso.modelo.entidad.Producto_Joined;
+
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.EntityManagerFactory;
+import jakarta.persistence.ParameterMode;
+import jakarta.persistence.Persistence;
+import jakarta.persistence.StoredProcedureQuery;
 
 
 public class ProcedimientosAlmacenados {

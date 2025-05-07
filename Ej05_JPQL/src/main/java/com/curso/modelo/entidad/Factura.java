@@ -21,7 +21,7 @@ public class Factura {
 
 	//Este extremo de la relaci�n es obligatorio
 	@ManyToOne
-	@JoinColumn(name="fk_id_cliente", referencedColumnName="id_cliente")
+	@JoinColumn(name="fk_id_cliente", referencedColumnName="id")
 	private Cliente cliente;
 
 	public Factura() {

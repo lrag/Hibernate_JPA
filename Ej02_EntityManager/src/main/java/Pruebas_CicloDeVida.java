@@ -1,23 +1,12 @@
 import static org.hibernate.cfg.JdbcSettings.FORMAT_SQL;
 import static org.hibernate.cfg.JdbcSettings.HIGHLIGHT_SQL;
-import static org.hibernate.cfg.JdbcSettings.PASS;
 import static org.hibernate.cfg.JdbcSettings.SHOW_SQL;
-import static org.hibernate.cfg.JdbcSettings.URL;
-import static org.hibernate.cfg.JdbcSettings.USER;
-
-import java.util.HashMap;
-import java.util.Map;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.cfg.Environment;
 
 import com.curso.modelo.entidad.Coche_Ciclo_De_Vida;
-import com.curso.modelo.entidad.Pelicula;
 
 public class Pruebas_CicloDeVida {
 
