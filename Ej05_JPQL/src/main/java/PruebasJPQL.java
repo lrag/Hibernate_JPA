@@ -24,6 +24,7 @@ public class PruebasJPQL {
 		em.getTransaction().begin();
 		
 		System.out.println("============================");
+		
 		//Tienes que poner un alias (el as es opcional)
 		//select * from clientes
 		Query q = em.createQuery("select c from com.curso.modelo.entidad.Cliente as c");
@@ -36,6 +37,9 @@ public class PruebasJPQL {
 			System.out.println(c.getNombre()+","+c.getDatosBancarios());
 		}
 
+		//
+		//Proyecciones
+		//		
 		//Cuando pedimos solo un atributo nos devuelven una lista del tipo correspondiente
 		System.out.println("============================");
 		List<Cliente> listaA = em.createQuery("select c from Cliente c").getResultList();
@@ -48,9 +52,15 @@ public class PruebasJPQL {
 			System.out.println(fila[0]+":"+fila[1]);
 		}
 		
-		//
-		//LA LISTA
-		//
+		//Si se te antoja un list
+		Query q15bis = em.createQuery("select new List(c.id, c.nombre, c.direccion.ciudad) from Cliente c");		
+		List<List<Object>> rs4 = q15bis.getResultList();
+		for(List<Object> lista:rs4){
+			for(Object obj: lista){
+				//System.out.print(obj+" ");
+			}
+			//System.out.println();
+		}
 		
 		//Podemos hacer lo mismo, pero con objetos 'resumen'
 		System.out.println("============================");
@@ -60,7 +70,9 @@ public class PruebasJPQL {
 			System.out.println(cr.getNombre()+","+cr.getDireccion());
 		}		
 		
+		//
 		//WHERE
+		//
 		Query q2 = em.createQuery("select c from Cliente c where c.nombre='Ringo'");
 		Query q3 = em.createQuery("select c from Cliente c where c.nombre='Ringo' or c.direccion.ciudad='X'");
 		Query q4 = em.createQuery("select c from Cliente c where c.nombre='Ringo' and c.direccion.ciudad='X'");
@@ -76,8 +88,10 @@ public class PruebasJPQL {
 		Query q8 = em.createQuery("select c from Cliente c where c.nombre like 'B___'");
 		//In
 		Query q9 = em.createQuery("select c from Cliente c where c.direccion.ciudad in ('Madrid','Salamanca','Toledo')");
-			
+		
+		//
 		//Relaciones:
+		//
 		//Clientes con pedidos (exige el extremo opcional)
 		System.out.println("============================");
 		//Dame los clientes que tienen pedidos (curiosidad)
@@ -87,7 +101,7 @@ public class PruebasJPQL {
 			System.out.println(c.getNombre()+","+c.getDatosBancarios().getNumeroTC());
 		}		
 				
-		//Relaciones////////////////////////////////////////////////////////////////////////////////
+		//Relaciones
 		System.out.println("============================");
 		//Pedidos de un cliente
 		//Sin el extremo opcional lo hacemos así:
@@ -107,6 +121,7 @@ public class PruebasJPQL {
 			System.out.println(p.getId()+","+p.getCodigo());
 		}
 		
+		//
 		//JOIN EXPLICITO. Se usa la colección para hacer el join, no la clase
 		//
 		//select c.pedidos from Cliente c
@@ -115,8 +130,7 @@ public class PruebasJPQL {
 		//select c.* from clientes c 
 		//           left join pedidos p on p.fk_id_cliente = c.id
 		//			 where p.fecha > '2022/04/01'
-		//La siguiente consulta exige el extremo opcional
-		
+		//La siguiente consulta exige el extremo opcional		
 		Query q9a = em.createQuery("select c from Cliente c " +
 								   "inner join c.pedidos p where p.fecha>:fecha");
 		q9a.setParameter("fecha", new Date());
@@ -127,12 +141,23 @@ public class PruebasJPQL {
 		 							 "where p.fecha>:fecha");
 		q9Bis.setParameter("fecha", new Date());
 		
+		//
 		//JOIN IMPLICITO
-		//Query q10    = s.createQuery("from Pedido p inner join Cliente c where c.direccion.ciudad = 'Barcelona'");
-		//Mejor así:
+		//
 		Query q10Bis = em.createQuery("select p from Pedido p where p.cliente.direccion.ciudad='Barcelona'");
 		
+		
+		//
+		//FETCH JOIN
+		//
+		Query q10a = em.createQuery("from Cliente c join fetch c.facturas where c.id=:id");
+		Query q10b = em.createQuery("from Cliente c "
+				+ "join fetch c.facturas as f "
+				+ "join fetch f.detalles where c.id=:id");		
+		
+		//
 		//Funciones
+		//
 		System.out.println("============================");
 		//Query q14Bis = s.createQuery("select max(p.stock) as max from Producto p");
 		//Query q14Bis2 = s.createQuery("select avg(p.p) as media from Producto p");
@@ -146,7 +171,9 @@ public class PruebasJPQL {
 		Double max = (Double) q14.getSingleResult();
 		System.out.println("MAX 2:"+max);
 		
+		//
 		//Expresiones
+		//
 		// +, -, *, /
 		// =, <=, >=, <>, !=, like
 		//AND, OR, NOT, XOR
@@ -156,7 +183,9 @@ public class PruebasJPQL {
 		//EJBQL: substring(), trim(), lower(), upper(), length(), abs(), sqrt(), mod()
 		//       current_date(), current_time(), current_timeStamp()		
 		
+		//
 		//Consultas polimorficas
+		//
 		//Consulta por la superclase
 		System.out.println("============================");
 		Query q17 = em.createQuery("select p from Producto_Joined p");
@@ -170,8 +199,10 @@ public class PruebasJPQL {
 		//Quiero solo los software y los hardware 
 		Query q18Bis = em.createQuery("from Producto_Joined p where p.class=Software_Joined or p.class=Hardware_Joined");
 		//List<Producto_Joined> rs6 = q12.list();
-				
+			
+		//
 		//Parámetros
+		//
 		//JAMAS debemos hacer esto. No se debe concatenar a una query. PENA DE MUERTE:
 		//JPA usa únicamente PreparedStatements
 		int precioMax = 150;
@@ -188,21 +219,30 @@ public class PruebasJPQL {
 		q21.setParameter("minimo", 60);
 		q21.setParameter("maximo", 110);
 		
+		//
+		//Fluent api
+		//
 		//Los métodos relacionados con consultas siempre devuelven la consula (curiosidad)
 		Query q22 = em
 			.createQuery("select p from Producto_Joined p where p.precio>=?1 and p.precio<=?2")
 			.setParameter(1, 60)
 			.setParameter(2, 110);
 		
+		//
 		//Orderby
+		//
 		Query q23    = em.createQuery("select c from Cliente c order by c.nombre Desc");
 		Query q23Bis = em.createQuery("select c from Cliente c order by c.nombre, c.direccion Desc");
 		
+		//
 		//Group by
+		//
 		//select distinct
 		//...
 		
+		//
 		//BULK UPDATE
+		//
 		//Subir un 5% los precios de todos los productos
 		//Todos los productos se quedaráan en la caché
 		Query q24 = em.createQuery("select p from Producto_Joined p");
@@ -218,7 +258,9 @@ public class PruebasJPQL {
 		Query q25 = em.createQuery("update Producto_Joined p set p.precio=p.precio*1.05");
 		int numModificados = q25.executeUpdate();
 		
+		//
 		//BULK DELETE
+		//
 		List<Producto_Joined> productos4 = q24.getResultList();
 		for(Producto_Joined p: productos4){
 			//em.remove(p);
@@ -228,8 +270,11 @@ public class PruebasJPQL {
 		
 		em.getTransaction().commit();
 		
+		//
 		//NAMED QUERY
+		//
 		Query q27 = em.createNamedQuery("cliente.listarTodos");
+		List<Cliente> clientes_ = em.createNamedQuery("cliente.listarTodos").getResultList();
 
 		em.close();
 	}
